@@ -186,3 +186,38 @@ Lessons Learned:
 
 Status:
 Completed
+
+## Phase 6 - REST Adapters and API Exposure
+
+Date: 2026-06-03
+
+Commit:
+feat(web): implement OpenAPI driven REST adapters and RFC7807 error handling
+
+Artifacts:
+
+- Generated OpenAPI Interfaces
+- REST Controllers
+- API Mappers
+- Global Exception Handler
+- RFC7807 Responses
+- Bean Validation
+- Controller Integration Tests
+- ADR-007
+
+## Completed
+- Implemented PolicyController using OpenAPI generated interfaces.
+- Added PolicyMapper for domain-to-API transformations.
+- Implemented GlobalExceptionHandler with RFC7807 responses.
+- Added controller, mapper, and exception handler tests.
+
+## Key Decisions
+- Controller contains no business logic.
+- Mapping isolated in dedicated mapper layer.
+- Exceptions translated at adapter boundary.
+
+## Outcome
+Inbound REST adapter layer completed and aligned with Clean Architecture principles.
+
+Status:
+Completed

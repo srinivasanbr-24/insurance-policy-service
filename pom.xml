@@ -81,6 +81,7 @@
             <version>0.2.6</version>
         </dependency>
 
+
         <!-- Database -->
 
         <dependency>
@@ -158,6 +159,7 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <performBeanValidation>true</performBeanValidation>
+                                <useTags>true</useTags>
                             </configOptions>
 
                             <generateApiTests>false</generateApiTests>
