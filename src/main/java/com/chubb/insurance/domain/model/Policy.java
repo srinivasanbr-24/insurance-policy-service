@@ -31,7 +31,7 @@ public class Policy {
 
     private boolean flaggedForReview;
 
-    public Policy(
+    private Policy(
             PolicyId id,
             PolicyNumber policyNumber,
             String policyholderName,
@@ -61,6 +61,63 @@ public class Policy {
         this.effectiveDate = effectiveDate;
         this.expirationDate = expirationDate;
         this.flaggedForReview = flaggedForReview;
+    }
+
+    public static Policy create(
+            PolicyId id,
+            PolicyNumber policyNumber,
+            String policyholderName,
+            String underwriter,
+            LineOfBusiness lineOfBusiness,
+            PolicyStatus status,
+            String region,
+            Money premium,
+            LocalDate effectiveDate,
+            LocalDate expirationDate
+    ) {
+
+        return new Policy(
+                id,
+                policyNumber,
+                policyholderName,
+                underwriter,
+                lineOfBusiness,
+                status,
+                region,
+                premium,
+                effectiveDate,
+                expirationDate,
+                false
+        );
+    }
+
+    public static Policy restore(
+            PolicyId id,
+            PolicyNumber policyNumber,
+            String policyholderName,
+            String underwriter,
+            LineOfBusiness lineOfBusiness,
+            PolicyStatus status,
+            String region,
+            Money premium,
+            LocalDate effectiveDate,
+            LocalDate expirationDate,
+            boolean flaggedForReview
+    ) {
+
+        return new Policy(
+                id,
+                policyNumber,
+                policyholderName,
+                underwriter,
+                lineOfBusiness,
+                status,
+                region,
+                premium,
+                effectiveDate,
+                expirationDate,
+                flaggedForReview
+        );
     }
 
     public PolicyFlaggedEvent flagForReview() {
@@ -109,6 +166,38 @@ public class Policy {
 
     public PolicyId getId() {
         return id;
+    }
+
+    public PolicyNumber getPolicyNumber() {
+        return policyNumber;
+    }
+
+    public String getPolicyholderName() {
+        return policyholderName;
+    }
+
+    public String getUnderwriter() {
+        return underwriter;
+    }
+
+    public LineOfBusiness getLineOfBusiness() {
+        return lineOfBusiness;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public Money getPremium() {
+        return premium;
+    }
+
+    public LocalDate getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
     public PolicyStatus getStatus() {

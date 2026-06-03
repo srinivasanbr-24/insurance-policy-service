@@ -113,3 +113,76 @@ Lessons Learned:
 
 Status:
 Completed
+
+## Phase 5 - Persistence Adapter and Dynamic Search
+
+Date: 2026-06-03
+
+Commit:
+feat(persistence): implement JPA persistence adapter and policy search specifications
+
+Objective:
+
+Introduce the persistence layer while preserving Clean Architecture boundaries.
+
+The persistence layer must implement application repository contracts without introducing framework dependencies into the domain model.
+
+Artifacts:
+
+### Persistence Infrastructure
+
+- BaseAuditEntity
+- PolicyJpaEntity
+- JpaConfig
+- SpringDataPolicyRepository
+
+### Repository Implementation
+
+- PolicyRepositoryAdapter
+- PolicyPersistenceMapper
+
+### Dynamic Search
+
+- PolicySpecification
+- Pagination Support
+- Sorting Support
+- Status Filtering
+- Line Of Business Filtering
+- Region Filtering
+- Effective Date Range Filtering
+- Free Text Search
+
+### Aggregate Rehydration
+
+- Policy.create(...)
+- Policy.restore(...)
+- Private Aggregate Constructor
+- Read-Only Aggregate Accessors
+
+### Testing
+
+- PolicyRepositoryAdapterIT
+- PolicySpecificationIT
+- PostgreSQL Testcontainers Support
+
+### Documentation
+
+- ADR-006 Persistence Adapter and Aggregate Rehydration Strategy
+
+Key Design Decisions:
+
+- Domain aggregates remain free of JPA annotations.
+- Persistence entities are separated from domain objects.
+- Repository adapters implement application ports.
+- Aggregate reconstruction uses dedicated restore(...) factory methods.
+- Dynamic searching uses JPA Specifications.
+
+Lessons Learned:
+
+- Aggregate restoration should be treated differently from aggregate creation.
+- Search requirements should influence repository design early.
+- Specifications provide a scalable approach for enterprise filtering requirements.
+- Clean Architecture introduces additional mapping code but improves maintainability.
+
+Status:
+Completed
