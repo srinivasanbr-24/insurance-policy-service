@@ -54,3 +54,62 @@ Artifacts:
 
 Status:
 Completed
+
+## Phase 4 - Application Layer & Use Cases
+
+Date: 2026-06-03
+
+Commit:
+feat(application): implement policy use cases and repository search contracts
+
+Objective:
+Introduce the application layer responsible for orchestrating business workflows while keeping the domain model isolated from infrastructure concerns.
+
+Artifacts:
+
+### Input Ports
+- GetPolicyUseCase
+- SearchPoliciesUseCase
+- FlagPoliciesUseCase
+- GetPolicySummaryUseCase
+
+### Output Ports
+- PolicyRepository
+- PolicyEventPublisher
+
+### Application Services
+- GetPolicyService
+- SearchPoliciesService
+- FlagPoliciesService
+- GetPolicySummaryService
+
+### Query Models
+- PolicySearchQuery
+
+### Result Models
+- PolicySearchResult
+- PolicySummaryResult
+- PolicySummaryProjection
+
+### Exceptions
+- PolicyNotFoundException
+
+### Unit Tests
+- GetPolicyServiceTest
+- SearchPoliciesServiceTest
+- FlagPoliciesServiceTest
+- GetPolicySummaryServiceTest
+
+Key Design Decisions:
+- Use Cases are exposed through Input Ports.
+- Infrastructure dependencies are hidden behind Output Ports.
+- Repository contract supports pagination, filtering, sorting, and summary projections.
+- Application Services coordinate workflows but do not contain domain business rules.
+
+Lessons Learned:
+- Search requirements should be reflected directly in repository contracts.
+- Returning List<Policy> is insufficient for enterprise search APIs.
+- Summary aggregations should be handled through dedicated projections rather than loading all policies into memory.
+
+Status:
+Completed
