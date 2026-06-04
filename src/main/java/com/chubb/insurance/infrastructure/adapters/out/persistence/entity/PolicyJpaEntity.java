@@ -3,6 +3,8 @@ package com.chubb.insurance.infrastructure.adapters.out.persistence.entity;
 import com.chubb.insurance.domain.model.LineOfBusiness;
 import com.chubb.insurance.domain.model.PolicyStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "policies")
+@Getter
+@Setter
 public class PolicyJpaEntity extends BaseAuditEntity {
 
     @Id
