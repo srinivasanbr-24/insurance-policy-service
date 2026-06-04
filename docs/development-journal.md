@@ -298,3 +298,30 @@ Verified:
 ## Outcome
 
 The service now emits Kafka events whenever policies are flagged, enabling downstream systems to react asynchronously.
+
+
+# Phase 9
+
+Completed caching layer.
+
+Implemented:
+
+* PolicyCache port
+* RedisPolicyCache
+* CacheConfig
+* Cache eviction in FlagPoliciesService
+* Cache-first lookup in GetPolicyService
+
+Added:
+
+* Redis integration
+* Cache hit/miss unit tests
+* Cache eviction verification tests
+
+Lessons:
+
+* Caching should be implemented behind an outbound port to preserve Clean Architecture.
+* Cache entries must be evicted after policy updates to prevent stale reads.
+* Application services should remain unaware of Redis-specific implementation details.
+* Unit tests should validate both cache-hit and cache-miss scenarios.
+

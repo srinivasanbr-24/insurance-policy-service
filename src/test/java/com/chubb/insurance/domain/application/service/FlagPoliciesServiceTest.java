@@ -1,6 +1,7 @@
 package com.chubb.insurance.domain.application.service;
 
 import com.chubb.insurance.application.exception.PolicyNotFoundException;
+import com.chubb.insurance.application.ports.out.PolicyCache;
 import com.chubb.insurance.application.ports.out.PolicyEventPublisher;
 import com.chubb.insurance.application.ports.out.PolicyRepository;
 import com.chubb.insurance.application.service.FlagPoliciesService;
@@ -10,8 +11,10 @@ import com.chubb.insurance.domain.exception.PolicyAlreadyFlaggedException;
 import com.chubb.insurance.domain.model.Policy;
 import com.chubb.insurance.domain.model.PolicyId;
 import com.chubb.insurance.support.TestPolicyFactory;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,13 +28,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FlagPoliciesServiceTest {
+class FlagPoliciesServiceTest {
 
     @Mock
     private PolicyRepository repository;
 
     @Mock
     private PolicyEventPublisher eventPublisher;
+
+    @Mock
+    private PolicyCache cache;
 
     @InjectMocks
     private FlagPoliciesService service;
@@ -49,12 +55,15 @@ public class FlagPoliciesServiceTest {
 
         service.flagPolicies(Set.of(id));
 
-        verify(repository).save(policy);
+        verify(repository)
+                .save(policy);
 
         verify(eventPublisher)
                 .publish(any(PolicyFlaggedEvent.class));
-    }
 
+        verify(cache)
+                .evict(new PolicyId(id));
+    }
 
     @Test
     void shouldFlagMultiplePolicies() {
@@ -81,8 +90,10 @@ public class FlagPoliciesServiceTest {
 
         verify(eventPublisher, times(2))
                 .publish(any());
-    }
 
+        verify(cache, times(2))
+                .evict(any());
+    }
 
     @Test
     void shouldThrowWhenPolicyNotFound() {
@@ -96,8 +107,10 @@ public class FlagPoliciesServiceTest {
                 PolicyNotFoundException.class,
                 () -> service.flagPolicies(Set.of(id))
         );
-    }
 
+        verify(cache, never())
+                .evict(any());
+    }
 
     @Test
     void shouldThrowWhenPolicyAlreadyFlagged() {
@@ -117,8 +130,10 @@ public class FlagPoliciesServiceTest {
 
         verify(eventPublisher, never())
                 .publish(any());
-    }
 
+        verify(cache, never())
+                .evict(any());
+    }
 
     @Test
     void shouldThrowWhenPolicyExpired() {
@@ -138,11 +153,8 @@ public class FlagPoliciesServiceTest {
 
         verify(eventPublisher, never())
                 .publish(any());
+
+        verify(cache, never())
+                .evict(any());
     }
-
-
-
-
-
-
 }
