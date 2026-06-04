@@ -26,7 +26,7 @@ spring:
       acks: all
       retries: 3
       properties:
-      enable.idempotence: true
+        enable.idempotence: true
 
   data:
     redis:
