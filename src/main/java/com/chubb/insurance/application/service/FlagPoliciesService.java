@@ -1,5 +1,6 @@
 package com.chubb.insurance.application.service;
 
+import com.chubb.insurance.application.exception.PolicyNotFoundException;
 import com.chubb.insurance.application.ports.in.FlagPoliciesUseCase;
 import com.chubb.insurance.application.ports.out.PolicyEventPublisher;
 import com.chubb.insurance.application.ports.out.PolicyRepository;
@@ -33,7 +34,10 @@ public class FlagPoliciesService
                     repository.findById(
                                     new PolicyId(id)
                             )
-                            .orElseThrow();
+                            .orElseThrow(() ->
+                            new PolicyNotFoundException(
+                                    "Policy not found"));
+
 
             PolicyFlaggedEvent event =
                     policy.flagForReview();
