@@ -20,6 +20,14 @@ spring:
       hibernate:
         format_sql: true
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      acks: all
+      retries: 3
+      properties:
+      enable.idempotence: true
+
 server:
   port: 8080
 

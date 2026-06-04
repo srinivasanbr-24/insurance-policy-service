@@ -241,3 +241,60 @@ Added:
 Lessons:
 - Flyway migrations should remain enabled in repository tests.
 - Auditing fields require EnableJpaAuditing and AuditorAware.
+
+
+# Phase 8 — Kafka Integration
+
+## Objective
+
+Introduce asynchronous event publishing when policies are flagged for review.
+
+## Completed
+
+### Domain
+
+* Reused existing PolicyFlaggedEvent
+
+### Application Layer
+
+* Added PolicyEventPublisher outbound port
+* Enhanced FlagPoliciesService
+* Publish events after successful flagging
+
+### Infrastructure
+
+* Added Spring Kafka dependency
+* Added KafkaProducerConfig
+* Added KafkaPolicyEventPublisher
+* Added PolicyFlaggedMessage DTO
+
+### Configuration
+
+Added Kafka producer configuration:
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+```
+
+### Testing
+
+Added tests for:
+
+* FlagPoliciesService
+* Event publishing invocation
+* Kafka publisher mapping logic
+
+## Architecture Validation
+
+Verified:
+
+* Domain remains framework independent
+* Application depends only on ports
+* Kafka implementation isolated in infrastructure
+* Clean Architecture boundaries preserved
+
+## Outcome
+
+The service now emits Kafka events whenever policies are flagged, enabling downstream systems to react asynchronously.
